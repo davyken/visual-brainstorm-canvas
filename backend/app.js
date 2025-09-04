@@ -6,10 +6,10 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import connectDB from './libs/db.js';
+import connectDB from './src/config/db.js';
 
 
-import usersRouter from './routes/users.js';
+import usersRouter from './src/routes/users.js';
 
 // ES6 equivalent of __dirname and __filename
 const __filename = fileURLToPath(import.meta.url);
