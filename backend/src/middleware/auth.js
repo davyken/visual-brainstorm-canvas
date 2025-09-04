@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import User from '../libs/userSchema.js';
+import User from '../schemas/userSchema.js';
 
 const SECRET_KEY = process.env.JWT_SECRET || 'your_jwt_secret_key';
 
