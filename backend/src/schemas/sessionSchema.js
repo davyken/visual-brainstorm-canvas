@@ -2,6 +2,9 @@
 import mongoose from 'mongoose';
 
 const sessionSchema = new mongoose.Schema({
+  _id: {
+    type: String, // Allow string IDs for easier demo usage
+  },
   title: {
     type: String,
     required: true,
@@ -13,8 +16,7 @@ const sessionSchema = new mongoose.Schema({
     trim: true,
   },
   ownerId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    type: String, // Allow string user IDs for demo
     required: true,
   },
   isPrivate: {
@@ -23,16 +25,18 @@ const sessionSchema = new mongoose.Schema({
   },
   participants: [
     {
-      userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+      userId: { type: String, required: true },
       role: { type: String, enum: ['owner', 'editor', 'viewer'], default: 'editor' },
       joinedAt: { type: Date, default: Date.now },
     }
   ],
   shapes: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Shape',
+    type: String, // Reference to shape IDs
   }],
-}, { timestamps: true });
+}, { 
+  timestamps: true,
+  _id: false // Disable automatic ObjectId generation
+});
 
 const Session = mongoose.model('Session', sessionSchema);
 export default Session;
