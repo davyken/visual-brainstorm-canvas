@@ -5,7 +5,8 @@
  */
 import http from 'http';
 import debugModule from 'debug';
-import app from '../app.js'; // Ensure app.js is also using ES6 modules
+import app from '../app.js';
+import setupSocket from '../src/sockets/index.js';
 
 const debug = debugModule('backend:server');
 
@@ -19,6 +20,7 @@ app.set('port', port);
  * Create HTTP server.
  */
 const server = http.createServer(app);
+setupSocket(server);
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -77,4 +79,9 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
+  if (typeof addr === 'string') {
+    console.log(`Server listening on ${addr}`);
+  } else if (addr && typeof addr.port === 'number') {
+    console.log(`Server listening on port ${addr.port}`);
+  }
 }
