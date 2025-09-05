@@ -7,8 +7,12 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import connectDB from './src/config/db.js';
 
-
+// Import your routers
+import canvasRoutes from './src/routes/canvasRoutes.js';
 import usersRouter from './src/routes/users.js';
+
+// Connect to the database
+connectDB();
 
 // ES6 equivalent of __dirname and __filename
 const __filename = fileURLToPath(import.meta.url);
@@ -26,7 +30,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.use('/', indexRouter);
+// Use your routers for specific API endpoints
+app.use('/api/canvases', canvasRoutes);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
@@ -44,6 +49,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-connectDB();
 
 export default app;
