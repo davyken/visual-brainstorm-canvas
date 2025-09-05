@@ -11,9 +11,6 @@ import cors from 'cors';
 // Import your routers
 import canvasRoutes from './src/routes/canvasRoutes.js';
 
-import cors from 'cors';  
-
-
 import usersRouter from './src/routes/users.js';
 import canvasRouter from './src/routes/canvas.js';
 import chatRouter from './src/routes/chat.js';
@@ -34,7 +31,7 @@ const app = express();
 //   })
 // );
 
-const allowedOrigins = ['http://localhost:3000'];
+const allowedOrigins = ['http://localhost:3000', 'http://localhost:3002'];
 app.use(
   cors({
     origin: (origin, callback) => {
@@ -70,13 +67,16 @@ app.use(function (req, res, next) {
   next(createError(404));
 });
 
-// error handler
+// error handler - return JSON instead of rendering views
 app.use(function (err, req, res, next) {
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
+  const isDevelopment = req.app.get('env') === 'development';
+  
   res.status(err.status || 500);
-  res.render('error');
+  res.json({
+    message: err.message,
+    error: isDevelopment ? err : {},
+    status: err.status || 500
+  });
 });
 
 export default app;
