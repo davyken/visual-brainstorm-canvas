@@ -6,15 +6,11 @@ import logger from 'morgan';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import connectDB from './src/config/db.js';
-
+import cors from 'cors';
 
 // Import your routers
 import canvasRoutes from './src/routes/canvasRoutes.js';
-
-import cors from 'cors';  
-
-
-import usersRouter from './src/routes/users.js';
+import usersRouter from './src/routes/users.js'; // <-- updated import
 
 // Connect to the database
 connectDB();
@@ -42,11 +38,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 // Use your routers for specific API endpoints
 app.use('/api/canvases', canvasRoutes);
-
-app.use('/users', usersRouter);
+app.use('/users', usersRouter); // <-- mounts signup, login, logout, current_user
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -61,6 +55,5 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
 
 export default app;

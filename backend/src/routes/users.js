@@ -8,6 +8,11 @@ import authMiddleware from '../middleware/auth.js';
 const router = express.Router();
 const SECRET_KEY = process.env.JWT_SECRET || 'your_jwt_secret_key';
 
+// --- In-memory token blacklist (for demonstration purposes) ---
+// NOTE: This will reset when the server restarts.
+// Use Redis or another persistent store in production.
+const tokenBlacklist = new Set();
+
 // Validation middleware for user signup
 const signupValidation = [
   body('name').notEmpty().withMessage('Name is required'),
@@ -40,7 +45,8 @@ router.post('/signup', signupValidation, handleValidationErrors, async (req, res
     if (existingUser) {
       return res.status(409).json({ message: 'User already exists' });
     }
-    const newUser = new User({ name, email, password });
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({ name, email, password: hashedPassword });
     await newUser.save();
     res.status(201).json({ message: 'User created successfully', userId: newUser._id });
   } catch (error) {
@@ -77,4 +83,19 @@ router.get('/current_user', authMiddleware, (req, res) => {
   });
 });
 
-export default router;
+// POST /users/logout
+router.post('/logout', authMiddleware, (req, res) => {
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if (!token) {
+    return res.status(400).json({ message: 'No token provided' });
+  }
+
+  // Add token to blacklist
+  tokenBlacklist.add(token);
+
+  res.status(200).json({ message: 'Logout successful' });
+});
+
+export { router as default, tokenBlacklist };

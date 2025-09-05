@@ -1,8 +1,51 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Node modules
+node_modules/
 
-# dependencies
-/node_modules
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
+# Dependency directories
+frontend/node_modules/
+backend/node_modules/
 
-# env files (can opt-in for committing if needed)
-.env*
+# Build output
+frontend/.next/
+frontend/out/
+frontend/.turbo/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Env files
+*.env
+*.env.*
+
+# Editor directories and files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Coverage
+coverage/
+
+# Misc
+*.local
+
+# Ignore test coverage
+frontend/coverage/
+backend/coverage/
+
+# Ignore dist if you build backend
+backend/dist/
+
+# Ignore shadcn/ui generated .components.json
+frontend/components.json
