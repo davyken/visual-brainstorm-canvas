@@ -6,10 +6,14 @@ const messageSchema = new mongoose.Schema({
     ref: 'Session',
     required: true,
   },
-  sender: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+  userId: {
+    type: String, // Can be ObjectId or socket ID for anonymous users
     required: true,
+  },
+  username: {
+    type: String,
+    required: true,
+    trim: true,
   },
   content: {
     type: String,
@@ -18,8 +22,18 @@ const messageSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ['text', 'image', 'file'],
+    enum: ['text', 'system', 'file', 'emoji'],
     default: 'text',
+  },
+  replyTo: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Message',
+    required: false,
+  },
+  reactions: {
+    type: Map,
+    of: [String], // emoji -> array of user IDs
+    default: {},
   },
   createdAt: {
     type: Date,
@@ -29,6 +43,11 @@ const messageSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+});
+
+messageSchema.pre('save', function(next) {
+  this.updatedAt = Date.now();
+  next();
 });
 
 const Message = mongoose.model('Message', messageSchema);
