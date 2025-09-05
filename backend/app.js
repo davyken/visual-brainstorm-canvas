@@ -10,7 +10,7 @@ import cors from 'cors';
 
 // Import your routers
 import canvasRoutes from './src/routes/canvasRoutes.js';
-import usersRouter from './src/routes/users.js'; // <-- updated import
+import usersRouter from './src/routes/users.js';
 
 // Connect to the database
 connectDB();
@@ -23,8 +23,8 @@ const app = express();
 
 app.use(
   cors({
-    origin: true, // allow all origins
-    credentials: true, // allow cookies if using session auth
+    origin: true,
+    credentials: true,
   })
 );
 
@@ -40,7 +40,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Use your routers for specific API endpoints
 app.use('/api/canvases', canvasRoutes);
-app.use('/users', usersRouter); // <-- mounts signup, login, logout, current_user
+app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -51,9 +51,8 @@ app.use(function (req, res, next) {
 app.use(function (err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
   res.status(err.status || 500);
   res.render('error');
 });
 
-export default app;
+export default app; // Export the Express app
