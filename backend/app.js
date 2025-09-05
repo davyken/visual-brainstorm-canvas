@@ -10,7 +10,13 @@ import cors from 'cors';
 
 // Import your routers
 import canvasRoutes from './src/routes/canvasRoutes.js';
-import usersRouter from './src/routes/users.js'; // <-- updated import
+
+import cors from 'cors';  
+
+
+import usersRouter from './src/routes/users.js';
+import canvasRouter from './src/routes/canvas.js';
+import chatRouter from './src/routes/chat.js';
 
 // Connect to the database
 connectDB();
@@ -21,10 +27,24 @@ const __dirname = dirname(__filename);
 
 const app = express();
 
+// app.use(
+//   cors({
+//     origin: true, // allow all origins
+//     credentials: true, // allow cookies if using session auth
+//   })
+// );
+
+const allowedOrigins = ['http://localhost:3000'];
 app.use(
   cors({
-    origin: true, // allow all origins
-    credentials: true, // allow cookies if using session auth
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true,
   })
 );
 
@@ -40,7 +60,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Use your routers for specific API endpoints
 app.use('/api/canvases', canvasRoutes);
-app.use('/users', usersRouter); // <-- mounts signup, login, logout, current_user
+
+app.use('/users', usersRouter);
+app.use('/api/canvas', canvasRouter);
+app.use('/api/chat', chatRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
