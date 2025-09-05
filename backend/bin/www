@@ -5,6 +5,7 @@
  */
 import http from 'http';
 import debugModule from 'debug';
+import { Server } from 'socket.io';
 import app from '../app.js';
 // import setupSocket from '../src/sockets/index.js';
 
@@ -20,6 +21,46 @@ app.set('port', port);
  * Create HTTP server.
  */
 const server = http.createServer(app);
+
+/**
+ * Set up Socket.IO
+ */
+const io = new Server(server, {
+  cors: {
+    origin: '*',
+    methods: ['GET', 'POST'],
+    credentials: true,
+  },
+});
+
+// **Socket.IO Logic**
+io.on('connection', (socket) => {
+  console.log(`User connected: ${socket.id}`);
+
+  // Handle joining a specific canvas room
+  socket.on('joinRoom', (canvasId) => {
+    socket.join(canvasId);
+    console.log(`User ${socket.id} joined room: ${canvasId}`);
+    socket.to(canvasId).emit('userJoined', socket.id);
+  });
+
+  // Handle chat messages
+  socket.on('chatMessage', (data) => {
+    const { canvasId, sender, message } = data;
+    const timestamp = new Date().toLocaleTimeString();
+    const fullMessage = {
+      sender,
+      message,
+      timestamp,
+    };
+    io.to(canvasId).emit('chatMessage', fullMessage);
+  });
+
+  socket.on('disconnect', () => {
+    console.log(`User disconnected: ${socket.id}`);
+  });
+});
+
 // setupSocket(server);
 
 /**

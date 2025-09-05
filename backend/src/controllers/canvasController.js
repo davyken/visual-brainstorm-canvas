@@ -5,18 +5,19 @@ import Canvas from '../schemas/Canvas.js';
 export const createCanvas = async (req, res) => {
   try {
     const canvasId = uuidv4();
-    const shareableLink = `https://your-domain.com/canvas/${canvasId}`; 
+    const shareableLink = `https://your-domain.com/canvas/${canvasId}`;
 
     const newCanvas = new Canvas({
       canvasId,
       shareableLink,
+      createdBy: req.user._id,
     });
 
     await newCanvas.save();
-    res.status(201).json({ 
-      message: 'Canvas created successfully', 
-      canvasId, 
-      shareableLink 
+    res.status(201).json({
+      message: 'Canvas created successfully',
+      canvasId,
+      shareableLink
     });
   } catch (err) {
     res.status(500).json({ error: 'Server error' });

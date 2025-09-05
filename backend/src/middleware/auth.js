@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import User from '../schemas/userSchema.js';
-import { tokenBlacklist } from '../routes/users.js'; // import blacklist
+import { tokenBlacklist } from './tokenBlacklist.js'; // import blacklist
 
 const SECRET_KEY = process.env.JWT_SECRET || 'your_jwt_secret_key';
 
