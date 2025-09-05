@@ -34,7 +34,7 @@ export default function handleCanvas(io, socket) {
       if (!existingParticipant) {
         session.participants.push({
           userId,
-          role: session.ownerId === userId ? 'owner' : 'collaborator',
+          role: session.ownerId === userId ? 'owner' : 'editor',
           joinedAt: new Date(),
         });
         await session.save();
