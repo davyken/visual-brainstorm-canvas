@@ -15,6 +15,7 @@ import usersRouter from './src/routes/users.js';
 import canvasRouter from './src/routes/canvas.js';
 import chatRouter from './src/routes/chat.js';
 
+
 // Connect to the database
 connectDB();
 
@@ -41,6 +42,7 @@ app.use(
         callback(new Error('Not allowed by CORS'));
       }
     },
+
     credentials: true,
   })
 );
@@ -62,6 +64,7 @@ app.use('/users', usersRouter);
 app.use('/api/canvas', canvasRouter);
 app.use('/api/chat', chatRouter);
 
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
@@ -69,8 +72,10 @@ app.use(function (req, res, next) {
 
 // error handler - return JSON instead of rendering views
 app.use(function (err, req, res, next) {
+
   const isDevelopment = req.app.get('env') === 'development';
   
+
   res.status(err.status || 500);
   res.json({
     message: err.message,
@@ -79,4 +84,4 @@ app.use(function (err, req, res, next) {
   });
 });
 
-export default app;
+export default app; // Export the Express app

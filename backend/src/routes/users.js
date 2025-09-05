@@ -4,14 +4,10 @@ import jwt from 'jsonwebtoken';
 import { body, validationResult } from 'express-validator';
 import User from '../schemas/userSchema.js';
 import authMiddleware from '../middleware/auth.js';
+import { tokenBlacklist } from '../middleware/tokenBlacklist.js';
 
 const router = express.Router();
 const SECRET_KEY = process.env.JWT_SECRET || 'your_jwt_secret_key';
-
-// --- In-memory token blacklist (for demonstration purposes) ---
-// NOTE: This will reset when the server restarts.
-// Use Redis or another persistent store in production.
-const tokenBlacklist = new Set();
 
 // Validation middleware for user signup
 const signupValidation = [
