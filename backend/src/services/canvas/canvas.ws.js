@@ -1,1 +1,0 @@
-// Socket.IO handlers for real-time drawing
