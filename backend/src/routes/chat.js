@@ -1,6 +1,5 @@
 import express from 'express';
 import Message from '../schemas/messageSchema.js';
-import Session from '../schemas/sessionSchema.js';
 
 const router = express.Router();
 
