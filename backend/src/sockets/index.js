@@ -1,5 +1,5 @@
 import { Server } from 'socket.io';
-import handleCanvas from './canvas.js';
+import handleCanvas from './canvas_new.js';
 
 export default function setupSocket(server) {
   const io = new Server(server, {

@@ -63,7 +63,6 @@ const canvasSchema = new mongoose.Schema({
     type: String,
     required: true,
     ref: 'Room',
-    index: true,
   },
   name: {
     type: String,

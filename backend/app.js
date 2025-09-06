@@ -59,10 +59,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Use your routers for specific API endpoints
-app.use('/api/canvases', canvasRoutes);
+// app.use('/api/canvases', canvasRoutes);
 app.use('/api/rooms', roomsRouter);
 app.use('/users', usersRouter);
-app.use('/canvas', canvasRouter);
+// app.use('/canvas', canvasRouter);
 app.use('/chat', chatRouter);
 
 
