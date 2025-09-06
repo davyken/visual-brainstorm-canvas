@@ -57,8 +57,16 @@ const roomSchema = new mongoose.Schema({
     },
   }],
   canvasData: {
-    type: mongoose.Schema.Types.Mixed,
-    default: null,
+    canvasId: {
+      type: String,
+      ref: 'Canvas',
+      index: true,
+    },
+    // Legacy support - will be migrated to separate Canvas document
+    legacyData: {
+      type: mongoose.Schema.Types.Mixed,
+      default: null,
+    },
   },
   settings: {
     allowGuests: {
@@ -115,7 +123,7 @@ roomSchema.statics.generateRoomId = function() {
 // Update last activity
 roomSchema.methods.updateActivity = function() {
   this.lastActivity = new Date();
-  return this.save();
+  // Don't save here - let the caller handle saving
 };
 
 // Add participant to room

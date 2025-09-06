@@ -6,15 +6,14 @@ import logger from 'morgan';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import connectDB from './src/config/db.js';
+import './src/schemas/index.js'; // Initialize all database schemas
 import cors from 'cors';
 
 // Import your routers
 import canvasRoutes from './src/routes/canvasRoutes.js';
 import roomsRouter from './src/routes/rooms.js';
 import usersRouter from './src/routes/users.js';
-import canvasRouter from './src/routes/canvas.js';
 import chatRouter from './src/routes/chat.js';
-
 
 // Connect to the database
 connectDB();

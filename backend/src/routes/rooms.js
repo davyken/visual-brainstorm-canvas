@@ -70,9 +70,8 @@ router.post('/', authMiddleware, createRoomValidation, handleValidationErrors, a
       maxParticipants,
     });
 
-    // Add creator as first participant
+    // Add creator as first participant (this will save the room)
     await room.addParticipant(userId, req.user.name);
-    await room.save();
 
     const shareableLink = `${process.env.FRONTEND_URL || 'http://localhost:3001'}/room/${roomId}`;
 

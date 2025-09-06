@@ -1,6 +1,5 @@
 import { Server } from 'socket.io';
 import handleCanvas from './canvas.js';
-import handleChat from './chat.js';
 
 export default function setupSocket(server) {
   const io = new Server(server, {
@@ -16,13 +15,6 @@ export default function setupSocket(server) {
   canvasNamespace.on('connection', (socket) => {
     console.log('✅ Socket.IO: Client connected to /canvas namespace:', socket.id);
     handleCanvas(canvasNamespace, socket);
-  });
-
-  // Chat namespace
-  const chatNamespace = io.of('/chat');
-  chatNamespace.on('connection', (socket) => {
-    console.log('✅ Socket.IO: Client connected to /chat namespace:', socket.id);
-    handleChat(chatNamespace, socket);
   });
 
   console.log('🚀 Socket.IO server setup complete');
