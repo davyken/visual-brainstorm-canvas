@@ -10,7 +10,7 @@ import cors from 'cors';
 
 // Import your routers
 import canvasRoutes from './src/routes/canvasRoutes.js';
-
+import roomsRouter from './src/routes/rooms.js';
 import usersRouter from './src/routes/users.js';
 import canvasRouter from './src/routes/canvas.js';
 import chatRouter from './src/routes/chat.js';
@@ -61,7 +61,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Use your routers for specific API endpoints
 app.use('/api/canvases', canvasRoutes);
-
+app.use('/api/rooms', roomsRouter);
 app.use('/users', usersRouter);
 app.use('/canvas', canvasRouter);
 app.use('/chat', chatRouter);
